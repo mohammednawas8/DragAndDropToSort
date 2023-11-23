@@ -73,7 +73,7 @@ fun <T> SortableList(
     itemContent: @Composable (Int, T) -> Unit,
     onItemPlacementChange: (from: Int, to: Int) -> Unit,
     rvAdapter: SortableListAdapter<T> = remember {
-        SortableListAdapter(
+       SortableListAdapter(
             itemContent = itemContent,
             onItemPlacementChange = onItemPlacementChange,
         )
@@ -94,9 +94,8 @@ fun <T> SortableList(
             selectedItemBackgroundColor = draggingProperties.selectedItemBackgroundColor
         )
     }
-    LaunchedEffect(items, rvAdapter, rv) {
-        if (rv != null)
-            rvAdapter.display(items)
+    LaunchedEffect(items, rvAdapter) {
+        rvAdapter.display(items)
     }
     LaunchedEffect(draggingState.enableDragging) {
         if (draggingState.enableDragging) {
@@ -145,8 +144,6 @@ class SortableListAdapter<T>(
 ) : RecyclerView.Adapter<SortableListAdapter<T>.ItemViewHolder>() {
     private var isItemMoved = false
 
-    // Returning true for both of these functions makes sure to discard the default animation in DiffUtil and also solves the blinking issue
-    // however don't worry :), the recyclerView will stay up to date with each change, because the display() function will update the List each time the state of the data list changes.
     private val differCallBack = object : DiffUtil.ItemCallback<T>() {
         override fun areItemsTheSame(oldItem: T & Any, newItem: T & Any): Boolean {
             return true

@@ -10,7 +10,7 @@ import java.util.Collections
 
 class MainViewModel : ViewModel() {
 
-    val items = MutableStateFlow((1..300).map { it.toString() })
+    val items = MutableStateFlow((1..3000).map { it.toString() })
 
     fun swapItems(from: Int, to: Int) {
         val currentList = items.value.toMutableList()
